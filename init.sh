@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #********************************************************************************
 # Copyright 2016 IBM
 #
@@ -26,6 +25,46 @@ export no_color='\e[0m' # No Color
 
 function debugme() {
   [[ $DEBUG = 1 ]] && "$@" || :
+}
+
+# Install a suitable version of the CloudFoundary CLI (cf. https://github.com/cloudfoundry/cli/releases)
+# Include the installed binary in $PATH
+# Usage: install_cf
+function install_cf() {  
+  mkdir /tmp/cf
+  __target_loc="${EXT_DIR}"
+
+  if [[ -z ${which_cf} || -z $(cf --version | grep "version 6\.13\.0") ]]; then
+    local __tmp=/tmp/cf$$.tgz
+    wget -O ${__tmp} 'https://cli.run.pivotal.io/stable?release=linux64-binary&version=6.13.0&source=github-rel'
+    tar -C ${__target_loc} -xzf ${__tmp}
+    rm -f ${__tmp}
+  fi
+  export PATH=${__target_loc}:${PATH}
+}
+
+
+# Install the latest version of the ActiveDeploy CLI (from http://plugins.ng.bluemix.net)
+# Usage: install_active_deploy
+function install_active_deploy() {
+  cf uninstall-plugin active-deploy || true
+  if [[ -z $(cf list-plugin-repos | grep "bluemix") ]]; then
+    cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
+  fi
+  cf install-plugin active-deploy -r bluemix -f
+}
+
+
+# Install a CloudFoundary and ActiveDeploy CLIs; provide debugging information
+# Usage: slave_setup
+function slave_setup() {
+  install_cf
+  which cf
+  cf --version
+  install_active_deploy
+
+  cf plugins
+  cf active-deploy-service-info
 }
 
 installwithpython276() {
