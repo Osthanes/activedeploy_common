@@ -345,7 +345,13 @@ fi
 echo -e "Bluemix host is '${BLUEMIX_API_HOST}'"
 echo -e "Bluemix target is '${BLUEMIX_TARGET}'"
 
+################################
+# Login if necessary
+################################
 if [[ ${TARGET_PLATFORM} = "Container" ]]; then
+    ################################
+    # ... to Container Service     #
+    ################################
 	# strip off the hostname to get full domain
 	CF_TARGET=`echo $BLUEMIX_API_HOST | sed 's/[^\.]*//'`
 	if [ -z "$API_PREFIX" ]; then
@@ -363,15 +369,7 @@ if [[ ${TARGET_PLATFORM} = "Container" ]]; then
 	sed -i "s/reg_host =.*/reg_host = $CCS_REGISTRY_HOST/g" $EXT_DIR/ice-cfg.ini
 	sed -i "s/cf_api_url =.*/cf_api_url = $BLUEMIX_API_HOST/g" $EXT_DIR/ice-cfg.ini
 	export ICE_CFG="ice-cfg.ini"
-fi
 
-################################
-# Login
-################################
-if [[ ${TARGET_PLATFORM} = "Container" ]]; then
-    ################################
-    # ... to Container Service     #
-    ################################
     login_to_container_service
     RESULT=$?
     if [ $RESULT -ne 0 ]; then
@@ -384,11 +382,7 @@ elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
     ################################
     # ... to Bluemix only          #
     ################################
-    cf_login
-    RESULT=$?
-    if [ $RESULT -ne 0 ]; then
-        exit $RESULT
-    fi
+    # Already logged in!
 else
   echo "Unknown target platform: ${TARGET_PLATFORM}"
   exit 1
