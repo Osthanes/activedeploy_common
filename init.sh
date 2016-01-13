@@ -252,7 +252,7 @@ function cf_login {
     cf login --help
 }
 
-if [[ $BACKEND = "CONTAINER" ]]; then
+if [[ ${TARGET_PLATFORM} = "Container" ]]; then
     ################################
     # Login to Container Service   #
     ################################
@@ -261,15 +261,22 @@ if [[ $BACKEND = "CONTAINER" ]]; then
     if [ $RESULT -ne 0 ]; then
         exit $RESULT
     fi
-else
+elif [[ ${TARGET_PLATFORM} = "VM" ]]; then
+  echo "VMs are not supported"
+  exit 1
+elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
     ################################
     # Login to Bluemix
     ################################
     login_to_bluemix
+    login_to_container_service # TODO - remove
     RESULT=$?
     if [ $RESULT -ne 0 ]; then
         exit $RESULT
     fi
+else
+  echo "Unknown target platform: ${TARGET_PLATFORM}"
+  exit 1
 fi
 
 ##########################################
