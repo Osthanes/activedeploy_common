@@ -247,9 +247,55 @@ fi
 slave_setup
 debugme cf apps
 
+##########################################
+# login_using_bluemix_user_password      #
+##########################################
+cf_login(){
+    if [ -z "$BLUEMIX_USER" ]; then 
+        echo -e "${red} In order to login with ice login command, the Bluemix user id is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        echo -e "${red} Please set BLUEMIX_USER on environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        return 1
+    fi 
+    if [ -z "$BLUEMIX_PASSWORD" ]; then 
+        echo -e "${red} In order to login with ice login command, the Bluemix password is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        echo -e "${red} Please set BLUEMIX_PASSWORD as an environment property environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        return 1
+    fi 
+    if [ -z "$BLUEMIX_ORG" ]; then 
+        export BLUEMIX_ORG=$BLUEMIX_USER
+        echo -e "${label_color} Using ${BLUEMIX_ORG} for Bluemix organization, please set BLUEMIX_ORG on the environment if you wish to change this. ${no_color} "
+    fi 
+    if [ -z "$BLUEMIX_SPACE" ]; then
+        export BLUEMIX_SPACE="dev"
+        echo -e "${label_color} Using ${BLUEMIX_SPACE} for Bluemix space, please set BLUEMIX_SPACE on the environment if you wish to change this. ${no_color} "
+    fi 
+    echo -e "${label_color}Logging on with Bluemix userid and Bluemix password${no_color}"
+    echo "BLUEMIX_USER: ${BLUEMIX_USER}"
+    echo "BLUEMIX_SPACE: ${BLUEMIX_SPACE}"
+    echo "BLUEMIX_ORG: ${BLUEMIX_ORG}"
+    echo "BLUEMIX_PASSWORD: xxxxx"
+    echo ""
 
-function cf_login {
-    cf login --help
+    local RC=0
+    local retries=0
+    while [ $retries -lt 5 ]; do 
+        debugme echo "login command: cf login -u ${BLUEMIX_USER} -p xxxxxx -o ${BLUEMIX_ORG} -s ${BLUEMIX_SPACE} -a ${BLUEMIX_API_HOST}"
+        cf login -u ${BLUEMIX_USER} -p ${BLUEMIX_PASSWORD} -o ${BLUEMIX_ORG} -s ${BLUEMIX_SPACE} -a ${BLUEMIX_API_HOST} 2> /dev/null
+        RC=$?
+        if [ ${RC} -eq 0 ] || [ ${RC} -eq 2 ]; then
+            break
+        fi
+        echo -e "${label_color}Failed to login to IBM Bluemix. Sleep 20 sec and try again.${no_color}"
+        sleep 20
+        retries=$(( $retries + 1 ))   
+    done
+
+
+    if [ $RC -eq 0 ]; then
+        echo -e "${label_color}Logged in into IBM Bluemix using cf login command${no_color}"
+    else
+        echo -e "${red}Failed to log in into IBM Bluemix${no_color}. cf login command returns error code ${RC}" | tee -a "$ERROR_LOG_FILE"
+    fi 
 }
 
 if [[ ${TARGET_PLATFORM} = "Container" ]]; then
@@ -268,8 +314,7 @@ elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
     ################################
     # Login to Bluemix
     ################################
-    login_to_bluemix
-    login_to_container_service # TODO - remove
+    cf_login
     RESULT=$?
     if [ $RESULT -ne 0 ]; then
         exit $RESULT
