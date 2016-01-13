@@ -248,16 +248,20 @@ slave_setup
 debugme cf apps
 
 ##########################################
-# login_using_bluemix_user_password      #
+# cf_login                               #
 ##########################################
 cf_login(){
+    if [ -f ~/.cf/config.json ]; then
+        get_targeting_info
+    fi
+
     if [ -z "$BLUEMIX_USER" ]; then 
-        echo -e "${red} In order to login with ice login command, the Bluemix user id is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        echo -e "${red} In order to login with cf login command, the Bluemix user id is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
         echo -e "${red} Please set BLUEMIX_USER on environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
         return 1
     fi 
     if [ -z "$BLUEMIX_PASSWORD" ]; then 
-        echo -e "${red} In order to login with ice login command, the Bluemix password is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
+        echo -e "${red} In order to login with cf login command, the Bluemix password is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
         echo -e "${red} Please set BLUEMIX_PASSWORD as an environment property environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
         return 1
     fi 
