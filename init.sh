@@ -183,7 +183,7 @@ else
 fi
 
 set +e
-set +x
+set -x
 
 
 ###############################
@@ -219,10 +219,6 @@ popd >/dev/null
 source ${EXT_DIR}/utilities/ice_utils.sh
 source ${EXT_DIR}/utilities/logging_utils.sh
 
-# Pull in common methods
-source ${EXT_DIR}/activedeploy_common.sh
-
-set -x
 ######################
 # Install ICE CLI    #
 ######################
@@ -249,12 +245,11 @@ fi
 
 # Setup pipeline slave
 slave_setup
-set +x
 debugme cf apps
 
 
 function cf_login {
-    
+    cf login --help
 }
 
 if [[ $BACKEND = "CONTAINER" ]]; then
