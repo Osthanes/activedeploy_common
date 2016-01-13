@@ -383,6 +383,7 @@ elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
     # ... to Bluemix only          #
     ################################
     # Already logged in!
+    echo "Already logged in to Cloud Foundry"
 else
   echo "Unknown target platform: ${TARGET_PLATFORM}"
   exit 1
