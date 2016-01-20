@@ -245,7 +245,7 @@ fi
 
 # Setup pipeline slave
 slave_setup
-apt-get install -y bc
+sudo apt-get install -y bc
 debugme cf apps
 
 ##########################################
