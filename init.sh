@@ -41,6 +41,7 @@ set -x
     tar -C ${__target_loc} -xzf ${__tmp}
     rm -f ${__tmp}
   fi
+  which cf
   export PATH=${__target_loc}:${PATH}
 }
 
