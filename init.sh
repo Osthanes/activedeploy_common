@@ -41,7 +41,6 @@ set -x
     tar -C ${__target_loc} -xzf ${__tmp}
     rm -f ${__tmp}
   fi
-  which cf
   export PATH=${__target_loc}:${PATH}
 }
 
@@ -54,6 +53,9 @@ function install_active_deploy() {
     cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
   fi
   cf install-plugin active-deploy -r bluemix -f
+
+  which cf
+  echo $PATH
 }
 
 
