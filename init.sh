@@ -34,6 +34,7 @@ function install_cf() {
   mkdir /tmp/cf
   __target_loc="${EXT_DIR}"
 
+set -x
   if [[ -z ${which_cf} || -z $(cf --version | grep "version 6\.13\.0") ]]; then
     local __tmp=/tmp/cf$$.tgz
     wget -O ${__tmp} 'https://cli.run.pivotal.io/stable?release=linux64-binary&version=6.13.0&source=github-rel'
