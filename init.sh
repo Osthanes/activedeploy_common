@@ -68,7 +68,6 @@ function slave_setup() {
   install_active_deploy
 
   cf plugins
-  cf active-deploy-service-info
 }
 
 installwithpython276() {
