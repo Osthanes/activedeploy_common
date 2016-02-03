@@ -62,7 +62,9 @@ function install_active_deploy() {
 # Install a CloudFoundary and ActiveDeploy CLIs; provide debugging information
 # Usage: slave_setup
 function slave_setup() {
-  #install_cf
+  if [[ -n INSTALL_CF ]]; then
+    install_cf
+  fi
   which cf
   cf --version
   install_active_deploy
