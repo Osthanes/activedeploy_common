@@ -246,6 +246,7 @@ if [ $RESULT -ne 0 ]; then
         exit $RESULT
     fi
     echo -e "${label_color}Successfully installed IBM Containers CLI ${no_color}"
+    which ice
 fi
 
 # Setup pipeline slave
