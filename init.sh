@@ -352,49 +352,49 @@ fi
 echo -e "Bluemix host is '${BLUEMIX_API_HOST}'"
 echo -e "Bluemix target is '${BLUEMIX_TARGET}'"
 
-################################
-# Login if necessary
-################################
-if [[ ${TARGET_PLATFORM} = "Container" ]]; then
-    ################################
-    # ... to Container Service     #
-    ################################
-	# strip off the hostname to get full domain
-	CF_TARGET=`echo $BLUEMIX_API_HOST | sed 's/[^\.]*//'`
-	if [ -z "$API_PREFIX" ]; then
-	    API_PREFIX=$DEF_API_PREFIX
-	fi
-	if [ -z "$REG_PREFIX" ]; then
-	    REG_PREFIX=$DEF_REG_PREFIX
-	fi
-	# build api server hostname
-	export CCS_API_HOST="${API_PREFIX}${CF_TARGET}"
-	# build registry server hostname
-	export CCS_REGISTRY_HOST="${REG_PREFIX}${CF_TARGET}"
-	# set up the ice cfg
-	sed -i "s/ccs_host =.*/ccs_host = $CCS_API_HOST/g" $EXT_DIR/ice-cfg.ini
-	sed -i "s/reg_host =.*/reg_host = $CCS_REGISTRY_HOST/g" $EXT_DIR/ice-cfg.ini
-	sed -i "s/cf_api_url =.*/cf_api_url = $BLUEMIX_API_HOST/g" $EXT_DIR/ice-cfg.ini
-	export ICE_CFG="ice-cfg.ini"
-
-    login_to_container_service
-    RESULT=$?
-    if [ $RESULT -ne 0 ]; then
-        exit $RESULT
-    fi
-elif [[ ${TARGET_PLATFORM} = "VM" ]]; then
-  echo "VMs are not supported"
-  exit 1
-elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
-    ################################
-    # ... to Bluemix only          #
-    ################################
-    # Already logged in!
-    echo "Already logged in to Cloud Foundry"
-else
-  echo "Unknown target platform: ${TARGET_PLATFORM}"
-  exit 1
-fi
+#################################
+## Login if necessary
+#################################
+#if [[ ${TARGET_PLATFORM} = "Container" ]]; then
+#    ################################
+#    # ... to Container Service     #
+#    ################################
+#	# strip off the hostname to get full domain
+#	CF_TARGET=`echo $BLUEMIX_API_HOST | sed 's/[^\.]*//'`
+#	if [ -z "$API_PREFIX" ]; then
+#	    API_PREFIX=$DEF_API_PREFIX
+#	fi
+#	if [ -z "$REG_PREFIX" ]; then
+#	    REG_PREFIX=$DEF_REG_PREFIX
+#	fi
+#	# build api server hostname
+#	export CCS_API_HOST="${API_PREFIX}${CF_TARGET}"
+#	# build registry server hostname
+#	export CCS_REGISTRY_HOST="${REG_PREFIX}${CF_TARGET}"
+#	# set up the ice cfg
+#	sed -i "s/ccs_host =.*/ccs_host = $CCS_API_HOST/g" $EXT_DIR/ice-cfg.ini
+#	sed -i "s/reg_host =.*/reg_host = $CCS_REGISTRY_HOST/g" $EXT_DIR/ice-cfg.ini
+#	sed -i "s/cf_api_url =.*/cf_api_url = $BLUEMIX_API_HOST/g" $EXT_DIR/ice-cfg.ini
+#	export ICE_CFG="ice-cfg.ini"
+#
+#    login_to_container_service
+#    RESULT=$?
+#    if [ $RESULT -ne 0 ]; then
+#        exit $RESULT
+#    fi
+#elif [[ ${TARGET_PLATFORM} = "VM" ]]; then
+#  echo "VMs are not supported"
+#  exit 1
+#elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
+#    ################################
+#    # ... to Bluemix only          #
+#    ################################
+#    # Already logged in!
+#    echo "Already logged in to Cloud Foundry"
+#else
+#  echo "Unknown target platform: ${TARGET_PLATFORM}"
+#  exit 1
+#fi
 
 ############################
 # enable logging to logmet #
