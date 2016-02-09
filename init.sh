@@ -396,11 +396,11 @@ echo -e "Bluemix target is '${BLUEMIX_TARGET}'"
 #  exit 1
 #fi
 
-############################
-# enable logging to logmet #
-############################
-setup_met_logging "${BLUEMIX_USER}" "${BLUEMIX_PASSWORD}"
-RESULT=$?
-if [ $RESULT -ne 0 ]; then
-    log_and_echo "$WARN" "LOGMET setup failed with return code ${RESULT}"
-fi
+#############################
+## enable logging to logmet #
+#############################
+#setup_met_logging "${BLUEMIX_USER}" "${BLUEMIX_PASSWORD}"
+#RESULT=$?
+#if [ $RESULT -ne 0 ]; then
+#    log_and_echo "$WARN" "LOGMET setup failed with return code ${RESULT}"
+#fi
