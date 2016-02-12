@@ -188,7 +188,7 @@ fi
 
 set +e
 #set $DEBUG to 1 for set -x output
-if [ $DEBUG -eq '1' ]; then
+if [[ $DEBUG = 1 ]]; then
   set -x # trace steps
 fi
 
