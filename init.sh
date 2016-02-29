@@ -57,12 +57,6 @@ function install_active_deploy() {
   echo $PATH
 }
 
-
-# Install a CloudFoundary and ActiveDeploy CLIs; provide debugging information
-# Usage: slave_setup
-function slave_setup() {
-}
-
 set +e
 #set $DEBUG to 1 for set -x output
 if [[ -n $DEBUG ]]; then
