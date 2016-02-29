@@ -253,6 +253,7 @@ source ${EXT_DIR}/utilities/logging_utils.sh
 
 # Setup pipeline slave
 slave_setup
+sudo apt-get update &> /dev/null
 sudo apt-get install -y bc
 
 ###########################################
