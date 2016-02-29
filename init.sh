@@ -62,6 +62,7 @@ fi
 ###############################
 # Configure extension PATH    #
 ###############################
+debugme echo "EXT_DIR=$EXT_DIR"
 EXT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 debugme echo "EXT_DIR=$EXT_DIR"
 
