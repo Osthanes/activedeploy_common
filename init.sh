@@ -24,7 +24,7 @@ export label_color='\e[0;33m'
 export no_color='\e[0m' # No Color
 
 function debugme() {
-  [[ $DEBUG = 1 ]] && "$@" || :
+  [[ -n $DEBUG ]] && "$@" || :
 }
 
 # Install a suitable version of the CloudFoundary CLI (cf. https://github.com/cloudfoundry/cli/releases)
