@@ -87,7 +87,6 @@ popd >/dev/null
 ################################
 # Source utilities sh files    #
 ################################
-source ${EXT_DIR}/utilities/ice_utils.sh
 source ${EXT_DIR}/utilities/logging_utils.sh
 
 ################################
