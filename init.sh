@@ -24,7 +24,7 @@ export label_color='\e[0;33m'
 export no_color='\e[0m' # No Color
 
 function debugme() {
-  [[ -n $DEBUG ]] && "$@" || :
+  [[ $DEBUG = 1 ]] && "$@" || :
 }
 
 # Install a suitable version of the CloudFoundary CLI (cf. https://github.com/cloudfoundry/cli/releases)
@@ -55,7 +55,7 @@ function install_active_deploy() {
 
 set +e
 #set $DEBUG to 1 for set -x output
-if [[ -n $DEBUG ]]; then
+if [[ $DEBUG = 1 ]]; then
   set -x # trace steps
 fi
 
