@@ -43,7 +43,6 @@ function install_cf() {
   export PATH=${__target_loc}:${PATH}
 }
 
-
 # Install the latest version of the ActiveDeploy CLI (from http://plugins.ng.bluemix.net)
 # Usage: install_active_deploy
 function install_active_deploy() {
@@ -52,9 +51,6 @@ function install_active_deploy() {
     cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
   fi
   cf install-plugin active-deploy -r bluemix -f
-
-  which cf
-  echo $PATH
 }
 
 set +e
@@ -77,11 +73,6 @@ if [ -z "$ERROR_LOG_FILE" ]; then
     export ERROR_LOG_FILE
 fi
 
-#################################
-# Source git_util sh file       #
-#################################
-source ${EXT_DIR}/git_util.sh
-
 ################################
 # get the extensions utilities #
 ################################
@@ -99,10 +90,10 @@ source ${EXT_DIR}/utilities/logging_utils.sh
 ################################
 # Setup pipeline slave         #
 ################################
-slave_setup
 if [[ -n "${INSTALL_CF}" ]]; then
   install_cf
 fi
+debugme which cf
 debugme cf --version
 
 install_active_deploy
