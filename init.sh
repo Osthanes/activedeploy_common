@@ -61,137 +61,13 @@ function install_active_deploy() {
 # Install a CloudFoundary and ActiveDeploy CLIs; provide debugging information
 # Usage: slave_setup
 function slave_setup() {
-  if [[ -n "${INSTALL_CF}" ]]; then
-    install_cf
-  fi
-  which cf
-  cf --version
-  install_active_deploy
-
-  cf plugins
 }
-
-#installwithpython276() {
-#    echo "Installing Python 2.7.6"
-#    sudo apt-get update &> /dev/null
-#    sudo apt-get -y install python2.7.6 &> /dev/null
-#    python --version
-#    wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py &> /dev/null
-#    python get-pip.py --user &> /dev/null
-#    export PATH=$PATH:~/.local/bin
-#    if [ -f icecli-3.0.zip ]; then
-#        debugme echo "there was an existing icecli.zip"
-#        debugme ls -la
-#        rm -f icecli-3.0.zip
-#    fi
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip &> /dev/null
-#    pip install --user icecli-3.0.zip > cli_install.log 2>&1
-#    debugme cat cli_install.log
-#}
-#
-#installwithpython27() {
-#    echo "Installing Python 2.7"
-#    sudo apt-get update &> /dev/null
-#    sudo apt-get -y install python2.7 &> /dev/null
-#    python --version
-#    wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py &> /dev/null
-#    python get-pip.py --user &> /dev/null
-#    export PATH=$PATH:~/.local/bin
-#    if [ -f icecli-3.0.zip ]; then
-#        debugme echo "there was an existing icecli.zip"
-#        debugme ls -la
-#        rm -f icecli-3.0.zip
-#    fi
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip &> /dev/null
-#    pip install --user icecli-3.0.zip > cli_install.log 2>&1
-#    debugme cat cli_install.log
-#}
-#
-#installwithpython34() {
-#    curl -kL http://xrl.us/pythonbrewinstall | bash
-#    source $HOME/.pythonbrew/etc/bashrc
-#    sudo apt-get install zlib1g-dev libexpat1-dev libdb4.8-dev libncurses5-dev libreadline6-dev
-#    sudo apt-get update &> /dev/null
-#    debugme pythonbrew list -k
-#    echo "Installing Python 3.4.1"
-#    pythonbrew install 3.4.1 &> /dev/null
-#    debugme cat /home/jenkins/.pythonbrew/log/build.log
-#    pythonbrew switch 3.4.1
-#    python --version
-#    echo "Installing pip"
-#    wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py &> /dev/null
-#    python get-pip.py --user
-#    export PATH=$PATH:~/.local/bin
-#    which pip
-#    echo "Installing ice cli"
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip &> /dev/null
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip
-#    pip install --user icecli-3.0.zip > cli_install.log 2>&1
-#    debugme cat cli_install.log
-#}
-#
-#installwithpython277() {
-#    pushd $EXT_DIR >/dev/null
-#    echo "Installing Python 2.7.7"
-#    curl -kL http://xrl.us/pythonbrewinstall | bash
-#    source $HOME/.pythonbrew/etc/bashrc
-#
-#    sudo apt-get update &> /dev/null
-#    sudo apt-get build-dep python2.7
-#    sudo apt-get install zlib1g-dev
-#    debugme pythonbrew list -k
-#    echo "Installing Python 2.7.7"
-#    pythonbrew install 2.7.7 --no-setuptools &> /dev/null
-#    debugme cat /home/jenkins/.pythonbrew/log/build.log
-#    pythonbrew switch 2.7.7
-#    python --version
-#    echo "Installing pip"
-#    wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py &> /dev/null
-#    python get-pip.py --user &> /dev/null
-#    debugme pwd
-#    debugme ls
-#    popd >/dev/null
-#    pip remove requests
-#    pip install --user -U requests
-#    pip install --user -U pip
-#    export PATH=$PATH:~/.local/bin
-#    which pip
-#    echo "Installing ice cli"
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip &> /dev/null
-#    pip install --user icecli-3.0.zip > cli_install.log 2>&1
-#    debugme cat cli_install.log
-#}
-#
-#installwithpython3() {
-#
-#    sudo apt-get update &> /dev/null
-#    sudo apt-get upgrade &> /dev/null
-#    sudo apt-get -y install python3 &> /dev/null
-#    python3 --version
-#    echo "installing pip"
-#    wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
-#    python3 get-pip.py --user &> /dev/null
-#    export PATH=$PATH:~/.local/bin
-#    which pip
-#    echo "installing ice cli"
-#
-#    wget https://static-ice.ng.bluemix.net/icecli-3.0.zip
-#    pip install --user icecli-3.0.zip > cli_install.log 2>&1
-#    debugme cat cli_install.log
-#}
-
-#if [[ $DEBUG = 1 ]]; then
-#    export ICE_ARGS="--verbose"
-#else
-#    export ICE_ARGS=""
-#fi
 
 set +e
 #set $DEBUG to 1 for set -x output
 if [[ -n $DEBUG ]]; then
   set -x # trace steps
 fi
-
 
 ###############################
 # Configure extension PATH    #
@@ -226,183 +102,21 @@ popd >/dev/null
 source ${EXT_DIR}/utilities/ice_utils.sh
 source ${EXT_DIR}/utilities/logging_utils.sh
 
-#######################
-## Install ICE CLI    #
-#######################
-#echo "Installing IBM Container Service CLI"
-#ice help &> /dev/null
-#RESULT=$?
-#if [ $RESULT -ne 0 ]; then
-##    installwithpython3
-##    installwithpython27
-#    installwithpython276
-##    installwithpython277
-##    installwithpython34
-#    ice help &> /dev/null
-#    RESULT=$?
-#    if [ $RESULT -ne 0 ]; then
-#        echo -e "${red}Failed to install IBM Containers CLI ${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        debugme python --version
-#        ${EXT_DIR}/print_help.sh
-#        ${EXT_DIR}/utilities/sendMessage.sh -l bad -m "Failed to install IBM Container Service CLI. $(get_error_info)"
-#        exit $RESULT
-#    fi
-#    echo -e "${label_color}Successfully installed IBM Containers CLI ${no_color}"
-#    which ice
-#fi
-
-# Setup pipeline slave
+################################
+# Setup pipeline slave         #
+################################
 slave_setup
+if [[ -n "${INSTALL_CF}" ]]; then
+  install_cf
+fi
+debugme cf --version
+
+install_active_deploy
+debugme cf plugins
+
+################################
+# Install bc                   #
+################################
 sudo apt-get update &> /dev/null
 sudo apt-get install -y bc
 
-###########################################
-## cf_login                               #
-###########################################
-#cf_login(){
-#    if [ -f ~/.cf/config.json ]; then
-#        get_targeting_info
-#    fi
-#
-#    if [ -z "$BLUEMIX_USER" ]; then 
-#        echo -e "${red} In order to login with cf login command, the Bluemix user id is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        echo -e "${red} Please set BLUEMIX_USER on environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        return 1
-#    fi 
-#    if [ -z "$BLUEMIX_PASSWORD" ]; then 
-#        echo -e "${red} In order to login with cf login command, the Bluemix password is required ${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        echo -e "${red} Please set BLUEMIX_PASSWORD as an environment property environment ${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        return 1
-#    fi 
-#    if [ -z "$BLUEMIX_ORG" ]; then 
-#        export BLUEMIX_ORG=$BLUEMIX_USER
-#        echo -e "${label_color} Using ${BLUEMIX_ORG} for Bluemix organization, please set BLUEMIX_ORG on the environment if you wish to change this. ${no_color} "
-#    fi 
-#    if [ -z "$BLUEMIX_SPACE" ]; then
-#        export BLUEMIX_SPACE="dev"
-#        echo -e "${label_color} Using ${BLUEMIX_SPACE} for Bluemix space, please set BLUEMIX_SPACE on the environment if you wish to change this. ${no_color} "
-#    fi 
-#    echo -e "${label_color}Logging on with Bluemix userid and Bluemix password${no_color}"
-#    echo "BLUEMIX_USER: ${BLUEMIX_USER}"
-#    echo "BLUEMIX_SPACE: ${BLUEMIX_SPACE}"
-#    echo "BLUEMIX_ORG: ${BLUEMIX_ORG}"
-#    echo "BLUEMIX_PASSWORD: xxxxx"
-#    echo ""
-#
-#    local RC=0
-#    local retries=0
-#    while [ $retries -lt 5 ]; do 
-#        debugme echo "login command: cf login -u ${BLUEMIX_USER} -p xxxxxx -o ${BLUEMIX_ORG} -s ${BLUEMIX_SPACE} -a ${BLUEMIX_API_HOST}"
-#        cf login -u ${BLUEMIX_USER} -p ${BLUEMIX_PASSWORD} -o ${BLUEMIX_ORG} -s ${BLUEMIX_SPACE} -a ${BLUEMIX_API_HOST} 2> /dev/null
-#        RC=$?
-#        if [ ${RC} -eq 0 ] || [ ${RC} -eq 2 ]; then
-#            break
-#        fi
-#        echo -e "${label_color}Failed to login to IBM Bluemix. Sleep 20 sec and try again.${no_color}"
-#        sleep 20
-#        retries=$(( $retries + 1 ))   
-#    done
-#
-#
-#    if [ $RC -eq 0 ]; then
-#        echo -e "${label_color}Logged in into IBM Bluemix using cf login command${no_color}"
-#    else
-#        echo -e "${red}Failed to log in into IBM Bluemix${no_color}. cf login command returns error code ${RC}" | tee -a "$ERROR_LOG_FILE"
-#    fi 
-#}
-
-###########################################
-## setup bluemix env
-###########################################
-## attempt to  target env automatically
-#if [ -n "$BLUEMIX_TARGET" ]; then
-#    # cf not setup yet, try manual setup
-#    if [ "$BLUEMIX_TARGET" == "staging" ]; then
-#        echo -e "Targetting staging Bluemix"
-#        export BLUEMIX_API_HOST="api.stage1.ng.bluemix.net"
-#    elif [ "$BLUEMIX_TARGET" == "prod" ]; then
-#        echo -e "Targetting production Bluemix"
-#        export BLUEMIX_API_HOST="api.ng.bluemix.net"
-#    else
-#        echo -e "${red}Unknown Bluemix environment specified: ${BLUEMIX_TARGET}${no_color}" | tee -a "$ERROR_LOG_FILE"
-#        echo -e "Targetting production Bluemix"
-#        export BLUEMIX_TARGET="prod"
-#        export BLUEMIX_API_HOST="api.ng.bluemix.net"
-#    fi
-#else
-#
-#    CF_API=$(${EXT_DIR}/cf api)
-#    RESULT=$?
-#    debugme echo "CF_API: ${CF_API}"
-#    if [ $RESULT -eq 0 ]; then
-#        # find the bluemix api host
-#        export BLUEMIX_API_HOST=`echo $CF_API  | awk '{print $3}' | sed '0,/.*\/\//s///'`
-#        echo $BLUEMIX_API_HOST | grep 'stage1'
-#        if [ $? -eq 0 ]; then
-#            # on staging, make sure bm target is set for staging
-#            export BLUEMIX_TARGET="staging"
-#        else
-#            # on prod, make sure bm target is set for prod
-#            export BLUEMIX_TARGET="prod"
-#        fi
-#    else
-#        echo -e "Targetting production Bluemix"
-#        export BLUEMIX_TARGET="prod"
-#        export BLUEMIX_API_HOST="api.ng.bluemix.net"
-#    fi
-#fi
-#echo -e "Bluemix host is '${BLUEMIX_API_HOST}'"
-#echo -e "Bluemix target is '${BLUEMIX_TARGET}'"
-
-#################################
-## Login if necessary
-#################################
-#if [[ ${TARGET_PLATFORM} = "Container" ]]; then
-#    ################################
-#    # ... to Container Service     #
-#    ################################
-#	# strip off the hostname to get full domain
-#	CF_TARGET=`echo $BLUEMIX_API_HOST | sed 's/[^\.]*//'`
-#	if [ -z "$API_PREFIX" ]; then
-#	    API_PREFIX=$DEF_API_PREFIX
-#	fi
-#	if [ -z "$REG_PREFIX" ]; then
-#	    REG_PREFIX=$DEF_REG_PREFIX
-#	fi
-#	# build api server hostname
-#	export CCS_API_HOST="${API_PREFIX}${CF_TARGET}"
-#	# build registry server hostname
-#	export CCS_REGISTRY_HOST="${REG_PREFIX}${CF_TARGET}"
-#	# set up the ice cfg
-#	sed -i "s/ccs_host =.*/ccs_host = $CCS_API_HOST/g" $EXT_DIR/ice-cfg.ini
-#	sed -i "s/reg_host =.*/reg_host = $CCS_REGISTRY_HOST/g" $EXT_DIR/ice-cfg.ini
-#	sed -i "s/cf_api_url =.*/cf_api_url = $BLUEMIX_API_HOST/g" $EXT_DIR/ice-cfg.ini
-#	export ICE_CFG="ice-cfg.ini"
-#
-#    login_to_container_service
-#    RESULT=$?
-#    if [ $RESULT -ne 0 ]; then
-#        exit $RESULT
-#    fi
-#elif [[ ${TARGET_PLATFORM} = "VM" ]]; then
-#  echo "VMs are not supported"
-#  exit 1
-#elif [[ ${TARGET_PLATFORM} = "CloudFoundry" ]]; then
-#    ################################
-#    # ... to Bluemix only          #
-#    ################################
-#    # Already logged in!
-#    echo "Already logged in to Cloud Foundry"
-#else
-#  echo "Unknown target platform: ${TARGET_PLATFORM}"
-#  exit 1
-#fi
-
-#############################
-## enable logging to logmet #
-#############################
-#setup_met_logging "${BLUEMIX_USER}" "${BLUEMIX_PASSWORD}"
-#RESULT=$?
-#if [ $RESULT -ne 0 ]; then
-#    log_and_echo "$WARN" "LOGMET setup failed with return code ${RESULT}"
-#fi
