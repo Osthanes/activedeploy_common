@@ -104,11 +104,9 @@ debugme cf plugins
 ################################
 # Install bc                   #
 ################################
-if [[ -n "${INSTALL_BC}" ]]; then
+if [[ -z "${SKIP_INSTALL_BC}" ]]; then
   sudo apt-get update &> /dev/null
   sudo apt-get install -y bc
-else
-  echo "Skip bc installation"
 fi
 
 
