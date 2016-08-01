@@ -105,5 +105,6 @@ debugme cf plugins
 # Install bc                   #
 ################################
 sudo apt-get update &> /dev/null
-sudo apt-get install -y bc
+echo "Skip bc installation"
+#sudo apt-get install -y bc
 
