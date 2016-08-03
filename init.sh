@@ -105,6 +105,4 @@ debugme cf plugins
 # Install bc                   #
 ################################
 sudo apt-get update &> /dev/null
-sudo apt-get upgrade -y
-
-
+sudo apt-get install -y bc
