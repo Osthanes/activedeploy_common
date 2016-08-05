@@ -30,7 +30,7 @@ function debugme() {
 # Install a suitable version of the CloudFoundary CLI (cf. https://github.com/cloudfoundry/cli/releases)
 # Include the installed binary in $PATH
 # Usage: install_cf
-function install_cf() {  
+function install_cf() {
   mkdir /tmp/cf
   __target_loc="${EXT_DIR}"
 
@@ -79,15 +79,15 @@ fi
 ################################
 # get the extensions utilities #
 ################################
-pushd . >/dev/null
-cd $EXT_DIR
-git_retry clone https://github.com/Osthanes/utilities.git utilities
-popd >/dev/null
+#pushd . >/dev/null
+#cd $EXT_DIR
+#git_retry clone https://github.com/Osthanes/utilities.git utilities
+#popd >/dev/null
 
 ################################
 # Source utilities sh files    #
 ################################
-source ${EXT_DIR}/utilities/logging_utils.sh
+#source ${EXT_DIR}/utilities/logging_utils.sh
 
 ################################
 # Setup pipeline slave         #
@@ -104,5 +104,5 @@ debugme cf plugins
 ################################
 # Install bc                   #
 ################################
-sudo apt-get update &> /dev/null
+sudo apt-get update # &> /dev/null
 sudo apt-get install -y bc
