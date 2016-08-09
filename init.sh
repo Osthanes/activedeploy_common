@@ -48,9 +48,10 @@ function install_cf() {
 function install_active_deploy() {
   cf uninstall-plugin active-deploy || true
   if [[ -z $(cf list-plugin-repos | grep "bluemix") ]]; then
-    cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
+    cf add-plugin-repo bluemix http://plugins.stage1.ng.bluemix.net
   fi
-  cf install-plugin active-deploy -r bluemix -f
+  #cf install-plugin active-deploy -r bluemix -f
+  cf install-plugin http://plugins.stage1.ng.bluemix.net/downloads/cf-plugins/active-deploy/active-deploy-windows-amd64-0.1.105.exe
 }
 
 set +e
