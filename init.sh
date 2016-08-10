@@ -21,6 +21,9 @@
 export green='\e[0;32m'
 export red='\e[0;31m'
 export label_color='\e[0;33m'
+export white='\e[0;37m'
+export cyan='\e[0;36m'
+export magenta='\e[0;35m'
 export no_color='\e[0m' # No Color
 
 function debugme() {
@@ -48,11 +51,9 @@ function install_cf() {
 function install_active_deploy() {
   cf uninstall-plugin active-deploy || true
   if [[ -z $(cf list-plugin-repos | grep "bluemix") ]]; then
-    #    cf add-plugin-repo bluemix http://plugins.stage1.ng.bluemix.net
-    cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
+    [[ -n ${USE_STAGE1_REPO} ]] && cf add-plugin-repo bluemix http://plugins.stage1.ng.bluemix.net || cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
   fi
   cf install-plugin active-deploy -r bluemix -f
-  # cf install-plugin "http://plugins.stage1.ng.bluemix.net/downloads/cf-plugins/active-deploy/active-deploy-linux-amd64-0.1.105" -f
 }
 
 set +e
@@ -95,16 +96,20 @@ fi
 # Setup pipeline slave         #
 ################################
 if [[ -n "${INSTALL_CF}" ]]; then
-  install_cf
+  install_cf &> "/tmp/$$"
+  (( $? )) && cat "/tmp/$$"
 fi
 debugme which cf
 debugme cf --version
 
-install_active_deploy
+install_active_deploy &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
 debugme cf plugins
 
 ################################
 # Install bc                   #
 ################################
-sudo apt-get update &> /dev/null
-sudo apt-get install -y bc
+sudo apt-get update &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
+sudo apt-get install -y bc &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
