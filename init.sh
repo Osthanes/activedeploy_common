@@ -80,19 +80,6 @@ if [ -z "$ERROR_LOG_FILE" ]; then
 fi
 
 ################################
-# get the extensions utilities #
-################################
-#pushd . >/dev/null
-#cd $EXT_DIR
-#git_retry clone https://github.com/Osthanes/utilities.git utilities
-#popd >/dev/null
-
-################################
-# Source utilities sh files    #
-################################
-#source ${EXT_DIR}/utilities/logging_utils.sh
-
-################################
 # Setup pipeline slave         #
 ################################
 if [[ -n "${INSTALL_CF}" ]]; then
@@ -113,3 +100,5 @@ sudo apt-get update &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 sudo apt-get install -y bc &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
+
+# git_retry clone -b ${GIT_BRANCH} https://github.com/${GIT_HOME}/update_service.git activedeploy &> /dev/null
