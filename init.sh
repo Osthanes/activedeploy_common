@@ -88,10 +88,15 @@ if [[ -n "${INSTALL_CF}" ]]; then
 fi
 debugme which cf
 debugme cf --version
+debugme cf api
+
+cf api | grep -q "\.stage1\."
+(( $? )) && export BMX_URL_INFIX="" || export BMX_URL_INFIX=".stage1"
 
 install_active_deploy &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 debugme cf plugins
+
 
 ################################
 # Install bc                   #
