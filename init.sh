@@ -91,7 +91,7 @@ debugme which cf
 debugme cf --version
 debugme cf api
 
-cf api | grep -q "\.stage1\."
+grep -q "\.stage1\." <<< $CF_TARGET_URL
 (( $? )) && export BMX_URL_INFIX="" || export BMX_URL_INFIX=".stage1"
 
 install_active_deploy &> "/tmp/$$"
