@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #********************************************************************************
-# Copyright 2016 IBM
+#   (c) Copyright 2016 IBM Corp.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 #   distributed under the License is distributed on an "AS IS" BASIS,
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
+#   limitations under the License.
 #********************************************************************************
 
 #############
@@ -21,6 +22,9 @@
 export green='\e[0;32m'
 export red='\e[0;31m'
 export label_color='\e[0;33m'
+export white='\e[0;37m'
+export cyan='\e[0;36m'
+export magenta='\e[0;35m'
 export no_color='\e[0m' # No Color
 
 function debugme() {
@@ -30,7 +34,7 @@ function debugme() {
 # Install a suitable version of the CloudFoundary CLI (cf. https://github.com/cloudfoundry/cli/releases)
 # Include the installed binary in $PATH
 # Usage: install_cf
-function install_cf() {  
+function install_cf() {
   mkdir /tmp/cf
   __target_loc="${EXT_DIR}"
 
@@ -48,7 +52,7 @@ function install_cf() {
 function install_active_deploy() {
   cf uninstall-plugin active-deploy || true
   if [[ -z $(cf list-plugin-repos | grep "bluemix") ]]; then
-    cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
+    [[ -n ${USE_STAGE1_REPO} ]] && cf add-plugin-repo bluemix http://plugins.stage1.ng.bluemix.net || cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
   fi
   cf install-plugin active-deploy -r bluemix -f
 }
@@ -77,32 +81,30 @@ if [ -z "$ERROR_LOG_FILE" ]; then
 fi
 
 ################################
-# get the extensions utilities #
-################################
-pushd . >/dev/null
-cd $EXT_DIR
-git_retry clone https://github.com/Osthanes/utilities.git utilities
-popd >/dev/null
-
-################################
-# Source utilities sh files    #
-################################
-source ${EXT_DIR}/utilities/logging_utils.sh
-
-################################
 # Setup pipeline slave         #
 ################################
 if [[ -n "${INSTALL_CF}" ]]; then
-  install_cf
+  install_cf &> "/tmp/$$"
+  (( $? )) && cat "/tmp/$$"
 fi
 debugme which cf
 debugme cf --version
+debugme cf api
 
-install_active_deploy
+grep -q "\.stage1\." <<< $CF_TARGET_URL
+(( $? )) && export BMX_URL_INFIX="" || export BMX_URL_INFIX=".stage1"
+
+install_active_deploy &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
 debugme cf plugins
+
 
 ################################
 # Install bc                   #
 ################################
-sudo apt-get update &> /dev/null
-sudo apt-get install -y bc
+sudo apt-get update &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
+sudo apt-get install -y bc &> "/tmp/$$"
+(( $? )) && cat "/tmp/$$"
+
+# git_retry clone -b ${GIT_BRANCH} https://github.com/${GIT_HOME}/update_service.git activedeploy &> /dev/null
