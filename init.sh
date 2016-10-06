@@ -16,6 +16,8 @@
 #   limitations under the License.
 #********************************************************************************
 
+set +e
+
 #############
 # Colors    #
 #############
@@ -107,4 +109,6 @@ sudo apt-get update &> "/tmp/$$"
 sudo apt-get install -y bc &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 
+echo "Leaving init.sh"
+return 0
 # git_retry clone -b ${GIT_BRANCH} https://github.com/${GIT_HOME}/update_service.git activedeploy &> /dev/null
