@@ -107,4 +107,4 @@ sudo apt-get update &> "/tmp/$$"
 sudo apt-get install -y bc &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 
-exit 0
+: 
