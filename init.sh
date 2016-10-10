@@ -91,8 +91,10 @@ debugme which cf
 debugme cf --version
 debugme cf api
 
-grep -q "\.stage1\." <<< $CF_TARGET_URL
+grep -q "\.stage1\." <<< "$CF_TARGET_URL"
 (( $? )) && export BMX_URL_INFIX="" || export BMX_URL_INFIX=".stage1"
+
+export BMX_URL_SUFFIX="${CF_TARGET_URL#*.}"
 
 install_active_deploy &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
@@ -107,4 +109,4 @@ sudo apt-get update &> "/tmp/$$"
 sudo apt-get install -y bc &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 
-: 
+:
