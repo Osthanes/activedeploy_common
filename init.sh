@@ -91,8 +91,6 @@ debugme which cf
 debugme cf --version
 debugme cf api
 
-export BMX_URL_SUFFIX="${CF_TARGET_URL#*.}"
-
 install_active_deploy &> "/tmp/$$"
 (( $? )) && cat "/tmp/$$"
 debugme cf plugins
