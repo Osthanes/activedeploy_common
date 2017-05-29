@@ -1,3 +1,6 @@
+# Note
+This service is being deprecated. For more information about the deprecation of this service, see https://www.ibm.com/blogs/bluemix/2017/05/retirement-ibm-active-deploy-beta-service/ 
+
 # activedeploy_common
 
 Shared code for the [activedeploy\_start](https://github.com/Osthanes/activedeploy_start) and [activedeploy\_finish](https://github.com/Osthanes/activedeploy_finish) projects.
