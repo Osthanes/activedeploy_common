@@ -52,7 +52,7 @@ function install_cf() {
 function install_active_deploy() {
   cf uninstall-plugin active-deploy || true
   if [[ -z $(cf list-plugin-repos | grep "bluemix") ]]; then
-    [[ -n ${USE_STAGE1_REPO} ]] && cf add-plugin-repo bluemix http://plugins.stage1.ng.bluemix.net || cf add-plugin-repo bluemix http://plugins.ng.bluemix.net
+    [[ -n ${USE_STAGE1_REPO} ]] && cf add-plugin-repo bluemix https://plugins.stage1.ng.bluemix.net || cf add-plugin-repo bluemix https://plugins.ng.bluemix.net
   fi
   cf install-plugin active-deploy -r bluemix -f
 }
